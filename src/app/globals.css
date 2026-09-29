@@ -1,0 +1,292 @@
+@import 'tailwindcss';
+@import 'lenis/dist/lenis.css';
+
+@theme {
+  /* Light theme: "ink/coal/char/steel" are the paper surfaces (lightest → deepest),
+     "bone" is the text colour. Names kept so every section re-themes from here. */
+  --color-ink: #f8f5ee;
+  --color-coal: #f2ede3;
+  --color-char: #ebe4d6;
+  --color-steel: #ddd4c3;
+  --color-bone: #2b2620;
+  --color-gold: #8f6c2f;
+  --color-bronze: #7a5f2d;
+  --color-amber: #d9a55a;
+  --color-concrete: #9a968d;
+  --color-wood: #7a5534;
+
+  --font-display: var(--font-archivo), 'Arial Narrow', sans-serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, serif;
+
+  --ease-build: cubic-bezier(0.65, 0, 0.2, 1);
+}
+
+:root {
+  --nav-h: 76px;
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+html.scroll-locked,
+html.scroll-locked body {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 4px;
+}
+
+/* ---------- Typography ---------- */
+
+.display {
+  font-family: var(--font-display);
+  font-stretch: 118%;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.86;
+}
+
+.display-wide {
+  font-family: var(--font-display);
+  font-stretch: 125%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.cine {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-stretch: 112%;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.mono-tag {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* SplitText masks: keep descenders visible */
+.split-line-mask {
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* ---------- Blueprint surfaces ---------- */
+
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(143, 108, 47, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(143, 108, 47, 0.09) 1px, transparent 1px),
+    linear-gradient(rgba(43, 38, 32, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(43, 38, 32, 0.035) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
+}
+
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(143, 108, 47, 0.5), transparent);
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 52px;
+  padding: 0 1.6rem;
+  font-family: var(--font-display);
+  font-stretch: 115%;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  isolation: isolate;
+  transition: color 0.45s var(--ease-build);
+}
+
+.btn .btn-label {
+  display: inline-block;
+  transition: transform 0.45s var(--ease-build);
+}
+
+.btn .btn-arrow {
+  display: inline-block;
+  transition: transform 0.45s var(--ease-build);
+}
+
+.btn .btn-line {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: var(--color-gold);
+  transform-origin: left;
+  transform: scaleX(0.28);
+  transition: transform 0.6s var(--ease-build);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(120% 140% at 50% 120%, rgba(143, 108, 47, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.btn:hover .btn-label,
+.btn:focus-visible .btn-label {
+  transform: translateX(3px);
+}
+.btn:hover .btn-arrow,
+.btn:focus-visible .btn-arrow {
+  transform: translateX(6px);
+}
+.btn:hover .btn-line,
+.btn:focus-visible .btn-line {
+  transform: scaleX(1);
+}
+.btn:hover::before,
+.btn:focus-visible::before {
+  opacity: 1;
+}
+
+.btn-solid {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+.btn-solid .btn-line {
+  background: var(--color-amber);
+}
+.btn-solid::before {
+  background: radial-gradient(120% 140% at 50% 120%, rgba(255, 244, 220, 0.4), transparent 65%);
+}
+
+.btn-ghost {
+  color: var(--color-bone);
+  border: 1px solid rgba(43, 38, 32, 0.22);
+}
+
+/* ---------- Custom cursor ---------- */
+
+html.has-cursor,
+html.has-cursor a,
+html.has-cursor button,
+html.has-cursor [role='button'],
+html.has-cursor label {
+  cursor: none;
+}
+html.has-cursor input,
+html.has-cursor textarea,
+html.has-cursor select {
+  cursor: auto;
+}
+
+/* ---------- Forms ---------- */
+
+.field {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(43, 38, 32, 0.22);
+  padding: 0.85rem 0 0.75rem;
+  color: var(--color-bone);
+  font-size: 1rem;
+  border-radius: 0;
+  transition: border-color 0.3s ease;
+  appearance: none;
+}
+.field:focus {
+  outline: none;
+  border-bottom-color: var(--color-gold);
+}
+.field::placeholder {
+  color: rgba(43, 38, 32, 0.4);
+}
+select.field {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%238F6C2F' stroke-width='1.4'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.25rem center;
+  padding-right: 1.5rem;
+}
+select.field option {
+  background: #fff;
+  color: var(--color-bone);
+}
+
+/* ---------- Motion safety ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(220%);
+  }
+}
+
+.scroll-cue-line {
+  animation: scroll-cue 2.2s var(--ease-build) infinite;
+}
